@@ -9,7 +9,7 @@
 		"express": "4.13.x",
 		"cfenv": "1.0.x",
 		"director": "",
-		"cool-ascii-faces: "*""
+		"cool-ascii-faces": "*"
 	},
 	"repository": {},
 	"engines": {
