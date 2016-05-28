@@ -1,11 +1,25 @@
 var HTTPS = require('https');
 var cool = require('cool-ascii-faces');
+var path = require('path');
+var glob = require('glob');
 
 var botID = process.env.BOT_ID;
 
+var pattern = "botCommands/*.js";
+console.log(pattern);
+var commands = glob.sync(pattern);
+console.log(commands);
+
+for(var command in commands) {
+	commands[command] = commands[command].replace('botCommands/', '');
+	commands[command] = commands[command].replace('.js', '');
+	console.log(commands[command]);
+};
+
+
 function respond() {
 	var request = JSON.parse(this.req.chunks[0]),
-		botRegex = /^\/ayy$/;
+		botRegex = /^Tell me a joke$/;
 
 	if(request.text && botRegex.test(request.text)) {
 		this.res.writeHead(200);
@@ -20,7 +34,7 @@ function respond() {
 
 function postMessage() {
 	
-	var botResponse = "lmao";
+	var botResponse = "Why can't the Atlanta Braves use the internet?  Because they can't get 3 W's in a row.";
 
 	var options = {
 		hostname: 'api.groupme.com',

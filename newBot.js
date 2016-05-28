@@ -1,10 +1,15 @@
 var HTTPS = require('https');
 var path = require('path');
+var cmds = require('./commands.js');
 var bot = {};
 
 var botID = process.env.BOT_ID;
 
-var botCommands = [];
+
+
+
+
+/*var botCommands = [];
 var registerCommand = function(command, description, func) {
 	botCommands[command] = [description, func];
 };
@@ -16,3 +21,5 @@ require("fs").readdirSync(normalizedPath).forEach(function (file) {
     require("./commands/" + file)(registerCommand);
   }
 });
+
+console.log("commands: " + botCommands[command]);*/

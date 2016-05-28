@@ -42,8 +42,8 @@ router.dispatch(req, res, function(err) {
 
 var appEnv = cfenv.getAppEnv();
 
-//var port = Number(process.env.PORT || 5000);
-var port = appEnv.port;
+var port = Number(process.env.PORT || 5000);
+//var port = appEnv.port;
 server.listen(port);
 
 function ping() {
