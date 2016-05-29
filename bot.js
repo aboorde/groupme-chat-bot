@@ -3,23 +3,49 @@ var cool = require('cool-ascii-faces');
 var path = require('path');
 var glob = require('glob');
 
+//require all files in botCommands/
+var requireDir = require('require-dir');
+var dir = requireDir('./botCommands');
+
+//calls about()
+/*dir.about();*/
+
+//sets bot ID defined in manifest.yml
 var botID = process.env.BOT_ID;
 
+//define pattern for folder of commands
 var pattern = "botCommands/*.js";
 console.log(pattern);
+// extract "folder/file.js" from pattern into array
 var commands = glob.sync(pattern);
 console.log(commands);
 
+// loop through existing commands and remove unneeded text
+console.log("Commands:");
 for(var command in commands) {
-	commands[command] = commands[command].replace('botCommands/', '');
+	commands[command] = commands[command].replace('botCommands', '');
 	commands[command] = commands[command].replace('.js', '');
 	console.log(commands[command]);
 };
+console.log(commands);
+
+//this works
+/*function testFxn() {
+	console.log("I WORKED BITCH");
+}
+
+var testVar = "testFxn";
+eval(testVar)();
+*/
 
 
 function respond() {
-	var request = JSON.parse(this.req.chunks[0]),
-		botRegex = /^Tell me a joke$/;
+	var request = JSON.parse(this.req.chunks[0]).toLowerCase();
+	//botRegex = /^Tell me a joke$/;
+
+	/*for(var command in commands) {
+
+	};*/
 
 	if(request.text && botRegex.test(request.text)) {
 		this.res.writeHead(200);
