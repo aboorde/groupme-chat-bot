@@ -3,12 +3,14 @@ var cool = require('cool-ascii-faces');
 var path = require('path');
 var glob = require('glob');
 
-//require all files in botCommands/
-var requireDir = require('require-dir');
-var dir = requireDir('./botCommands');
+var about = require('./botCommands/about.js');
 
+//require all files in botCommands/
+/*var requireDir = require('require-dir');
+var dir = requireDir('./botCommands');
+*/
 //calls about()
-/*dir.about();*/
+about();
 
 //sets bot ID defined in manifest.yml
 var botID = process.env.BOT_ID;
@@ -27,27 +29,38 @@ for(var command in commands) {
 	commands[command] = commands[command].replace('.js', '');
 	console.log(commands[command]);
 };
-console.log(commands);
-
+console.log(commands[0]);
+/*var testReq = "/about";
+console.log(testReq);
+if(commands[0].text == testReq.text) {console.log("It is equal");};*/
 //this works
 /*function testFxn() {
 	console.log("I WORKED BITCH");
 }
-
 var testVar = "testFxn";
 eval(testVar)();
 */
-
-
+//
+//var botRegex = /^Tell me a joke$/;
 function respond() {
-	var request = JSON.parse(this.req.chunks[0]).toLowerCase();
+	var request = JSON.parse(this.req.chunks[0]);
 	//botRegex = /^Tell me a joke$/;
 
-	/*for(var command in commands) {
+	for(var command in commands) {
+		var cmdReg = commands[command];
+		var botRegex = new RegExp('^' + cmdReg + '$');
+		if(request.text && botRegex.test(request.text)) {
+			this.res.writeHead(200);
+			postMessage();
+			this.res.end();
+		} else {
+			console.log("dont care!?!");
+			this.res.writeHead(200);
+			this.res.end();
+		}
+	};
 
-	};*/
-
-	if(request.text && botRegex.test(request.text)) {
+	/*if(request.text && botRegex.test(request.text)) {
 		this.res.writeHead(200);
 		postMessage();
 		this.res.end();
@@ -55,12 +68,12 @@ function respond() {
 		console.log("dont care!?!");
 		this.res.writeHead(200);
 		this.res.end();
-	}
+	}*/
 }
 
 function postMessage() {
 	
-	var botResponse = "Why can't the Atlanta Braves use the internet?  Because they can't get 3 W's in a row.";
+	var botResponse = "Your matching worked you can move on";
 
 	var options = {
 		hostname: 'api.groupme.com',
