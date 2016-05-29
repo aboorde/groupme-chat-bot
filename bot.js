@@ -4,13 +4,13 @@ var path = require('path');
 var glob = require('glob');
 
 var about = require('./botCommands/about.js');
-
+var nothing = require('./botCommands/nothing.js');
 //require all files in botCommands/
 /*var requireDir = require('require-dir');
 var dir = requireDir('./botCommands');
 */
 //calls about()
-about();
+//about();
 
 //sets bot ID defined in manifest.yml
 var botID = process.env.BOT_ID;
@@ -30,11 +30,19 @@ for(var command in commands) {
 	console.log(commands[command]);
 };
 console.log(commands[0]);
-/*var testReq = "/about";
+/*
+var testString = 'about';
+var evalStore = eval(testString)();
+console.log(evalStore);
+*/
+/*
+var testReq = "/about";
 console.log(testReq);
-if(commands[0].text == testReq.text) {console.log("It is equal");};*/
+if(commands[0].text == testReq.text) {console.log("It is equal");};
+*/
 //this works
-/*function testFxn() {
+/*
+function testFxn() {
 	console.log("I WORKED BITCH");
 }
 var testVar = "testFxn";
@@ -45,13 +53,15 @@ eval(testVar)();
 function respond() {
 	var request = JSON.parse(this.req.chunks[0]);
 	//botRegex = /^Tell me a joke$/;
-
+	var evalRes = '';
 	for(var command in commands) {
-		var cmdReg = commands[command];
-		var botRegex = new RegExp('^' + cmdReg + '$');
+		var cmdName = commands[command];
+		var botRegex = new RegExp('^' + cmdName + '$');
 		if(request.text && botRegex.test(request.text)) {
+			cmdName = cmdName.replace('/', '');
+			evalRes = eval(cmdName)();
 			this.res.writeHead(200);
-			postMessage();
+			postMessage(evalRes);
 			this.res.end();
 		} else {
 			console.log("dont care!?!");
@@ -71,9 +81,9 @@ function respond() {
 	}*/
 }
 
-function postMessage() {
+function postMessage(evalRes) {
 	
-	var botResponse = "Your matching worked you can move on";
+	var botResponse = evalRes;
 
 	var options = {
 		hostname: 'api.groupme.com',

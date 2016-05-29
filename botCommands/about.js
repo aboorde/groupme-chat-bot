@@ -1,5 +1,5 @@
 module.exports = function() {
-		console.log("BLAHHHHH");
+		return "Find me at https://github.com/aboorde/groupme-chat-bot";
 				
 }
 
