@@ -19,7 +19,11 @@ var cfenv = require('cfenv');
 var http = require('http');
 var director = require('director');
 var cool = require('cool-ascii-faces');
+
+//Firebase
+
 var bot = require('./bot.js');
+
 
 var router = new director.http.Router({
   '/' : {

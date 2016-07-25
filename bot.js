@@ -3,8 +3,21 @@ var cool = require('cool-ascii-faces');
 var path = require('path');
 var glob = require('glob');
 
+var firebase = require("firebase");
+
 var about = require('./botCommands/about.js');
 var nothing = require('./botCommands/nothing.js');
+
+//init Firebase
+firebase.initializeApp({
+  serviceAccount: "firebaseAccountCreds.json",
+  databaseURL: "https://groupme-chat-bot.firebaseio.com"
+});
+
+var db = firebase.database();
+var ref = db.ref("messages");
+
+
 //require all files in botCommands/
 /*var requireDir = require('require-dir');
 var dir = requireDir('./botCommands');
@@ -53,6 +66,13 @@ eval(testVar)();
 function respond() {
 	var request = JSON.parse(this.req.chunks[0]);
 	//botRegex = /^Tell me a joke$/;
+	ref.push({
+		"created_at": request.created_at,
+		"id": request.id,
+		"name": request.name,
+		"sender_type": request.sender_type,
+		"text": request.text
+	});
 	var evalRes = '';
 	for(var command in commands) {
 		var cmdName = commands[command];
@@ -67,6 +87,7 @@ function respond() {
 			console.log("dont care!?!");
 			this.res.writeHead(200);
 			this.res.end();
+			/**/
 		}
 	};
 
